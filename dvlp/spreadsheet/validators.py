@@ -36,3 +36,7 @@ list_schema = Schema(
     file_nonce=fev.String(),
     mapping=mapping_schema,
     chained_validators=[FileByNonce()])
+
+append_schema = Schema(
+    file_nonce=fev.String(),
+    chained_validators=[FileByNonce()])

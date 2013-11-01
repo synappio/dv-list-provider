@@ -1,15 +1,12 @@
-import csv
 import logging
-from cStringIO import StringIO
 
 
 from pyramid.view import view_config
 from pyramid import httpexceptions as exc
 from pyramid.response import Response
 
-import sfile.lib
 from sevent import model as EM
-from sutil import util
+from sfile import model as FM
 
 from dvlp.spreadsheet import model as M
 from dvlp.spreadsheet import validators as V
@@ -72,8 +69,9 @@ def get_list(request):
     permission='write')
 def append_list(request):
     '''This is what Synapp.io actually does to the list'''
-    raise NotImplementedError('append_list')
-    return {}
+    data = V.append_schema.to_python(request.json, request)
+    request.context.lst.append(data['file'])
+    return request.context.lst
 
 
 @view_config(
@@ -106,19 +104,15 @@ def remap_list(request):
     permission='read')
 def get_subscribers(request):
     lst = request.context.lst
-    wb = sfile.lib.Workbook.from_sfile(lst.original_file)
-    rdr = enumerate(wb.sheet_iter(lst.mapping.sheet))
-    if lst.mapping.header:
-        rdr.next()
     r = Response(content_type='text/csv')
-    def app_iter():
-        for rows in util.chunk(rdr, 100):
-            fp = StringIO()
-            wr = csv.writer(fp)
-            for rownum, row in rows:
-                wr.writerow([rownum, row[lst.mapping.email]])
-            yield fp.getvalue()
-    r.app_iter = app_iter()
+    r.app_iter = lst.subscriber_iter()
     return r
 
 
+@view_config(
+    route_name='dvlp.spreadsheet.1_0.list.appended',
+    request_method='GET',
+    permission='read')
+def get_appended(request):
+    lst = request.context.lst
+    return FM.file_response(lst.appended_file)

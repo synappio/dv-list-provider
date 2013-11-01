@@ -1,4 +1,8 @@
+import csv
 import logging
+import operator
+from itertools import chain
+from cStringIO import StringIO
 from datetime import datetime
 
 from pyramid.decorator import reify
@@ -8,7 +12,9 @@ from ming import schema as S
 from ming import collection, Field
 from ming.orm import ThreadLocalODMSession
 
+import sfile.lib
 from sfile import model as FM
+from sutil import util
 
 log = logging.getLogger(__name__)
 
@@ -41,5 +47,55 @@ class List(object):
     @reify
     def original_file(self):
         return FM.File.m.get_file(self.original_file_id)
+
+    @reify
+    def appended_file(self):
+        return FM.File.m.get_file(self.appended_file_id)
+
+    def subscriber_iter(self):
+        wb = sfile.lib.Workbook.from_sfile(self.original_file)
+        rdr = enumerate(wb.sheet_iter(self.mapping.sheet))
+        if self.mapping.header:
+            rdr.next()
+        else:
+            rdr = ((rownum + 1, row) for (rownum, row) in rdr)
+        for rows in util.chunk(rdr, 100):
+            fp = StringIO()
+            wr = csv.writer(fp)
+            for rownum, row in rows:
+                wr.writerow([rownum, row[self.mapping.email]])
+            yield fp.getvalue()
+
+    def append(self, f):
+        wb = sfile.lib.Workbook.from_sfile(self.original_file)
+        rdr0 = enumerate(wb.sheet_iter(self.mapping.sheet))
+        if not self.mapping.header:
+            rdr0 = chain(
+                [(0, None)],
+                ((rownum + 1, row) for (rownum, row) in rdr0))
+        rfp = FM.File.m.get_file(f._id)
+        wfp = FM.File.m.new_file(
+            f.filename + '-appended.csv',
+            contentType='text/csv')
+        self.appended_file_id = wfp._id
+        with rfp, wfp:
+            rdr1 = csv.reader(util.Linereader(rfp))
+            wr = csv.writer(wfp)
+            key0 = operator.itemgetter(0)
+            key1 = lambda row: int(row[0])
+            for val0, val1 in util.right_join(rdr0, rdr1, key0, key1):
+                if val0 is None:
+                    row0 = []
+                else:
+                    row0 = val0[1]
+                if val1 is None:
+                    row1 = []
+                else:
+                    row1 = val1
+                if row0 is None:
+                    row0 = []
+                if row1 is None:
+                    row1 = []
+                wr.writerow(row1 + row0)
 
 odm_session.mapper(List, list_, properties=dict())

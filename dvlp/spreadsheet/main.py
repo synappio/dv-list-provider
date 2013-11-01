@@ -41,14 +41,20 @@ def _api_1_0(config):
     config.add_route(
         'dvlp.spreadsheet.1_0.lists', '/list/', factory=R.RequestUser)
     config.add_route(
-        'dvlp.spreadsheet.1_0.list', '/list/{list_id}/', factory=R.List)
+        'dvlp.spreadsheet.1_0.list',
+        '/list/{list_id}/',
+        factory=R.List)
     config.add_route(
-        'dvlp.spreadsheet.1_0.list.mapping',
-        '/list/{list_id}/mapping/',
+        'dvlp.spreadsheet.1_0.list.appended',
+        '/list/{list_id}/appended.csv',
         factory=R.List)
     config.add_route(
         'dvlp.spreadsheet.1_0.list.subscribers',
-        '/list/{list_id}/subscribers/',
+        '/list/{list_id}/subscribers.csv',
+        factory=R.List)
+    config.add_route(
+        'dvlp.spreadsheet.1_0.list.mapping',
+        '/list/{list_id}/mapping/',
         factory=R.List)
     config.scan('dvlp.spreadsheet.views')
     config.scan('sutil.error_views')
