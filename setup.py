@@ -20,11 +20,11 @@ setup(name='dv-list-provider',
       description='dv-list-provider',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
-        "Programming Language :: Python",
-        "Framework :: Pyramid",
-        "Topic :: Internet :: WWW/HTTP",
-        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        ],
+          "Programming Language :: Python",
+          "Framework :: Pyramid",
+          "Topic :: Internet :: WWW/HTTP",
+          "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+      ],
       author='',
       author_email='',
       url='',
@@ -37,8 +37,9 @@ setup(name='dv-list-provider',
       test_suite="dvlistprovider",
       entry_points="""\
       [paste.app_factory]
-      mailchimp = dvlp.mailchimp.main:main
-      salesforce = dvlp.salesforce.main:main
-      constantcontact = dvlp.salesforce.main:main
+      spreadsheet = dvlp.spreadsheet.main:main
+      # mailchimp = dvlp.mailchimp.main:main
+      # salesforce = dvlp.salesforce.main:main
+      # constantcontact = dvlp.salesforce.main:main
       """,
       )
