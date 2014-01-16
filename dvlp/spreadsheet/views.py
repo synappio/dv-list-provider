@@ -10,6 +10,7 @@ from sfile import model as FM
 
 from dvlp.spreadsheet import model as M
 from dvlp.spreadsheet import validators as V
+import tasks as T
 
 log = logging.getLogger(__name__)
 
@@ -48,11 +49,12 @@ def create_list(request):
         mapping=data['mapping'])
     request.response.status = 201
     M.odm_session.flush(lst)
-    EM.event.track(
+    evt = EM.event.track(
         'dvlp.spreadsheet.list-created',
         request.user._id,
         list_id=lst._id)
-    return lst
+    T.import_list.spawn(evt._id)
+    raise exc.HTTPFound(request.route_path('list', lid=lst._id))
 
 
 @view_config(
