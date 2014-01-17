@@ -1,0 +1,242 @@
+{
+    "apiVersion": "0.1",
+    "swaggerVersion": "1.2",
+    "basePath": "http://localhost:8081/api/dvlp/ss/1.0",
+    "resourcePath": "/api/dvlp/ss/1.0",
+    "apis": [
+        {
+            "path": "/preview/",
+            "description": "--",
+            "operations": [
+                {
+                    "nickname": "previewList",
+                    "method": "GET",
+                    "summary": "Previews a list before upload",
+                    "type": "",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "url",
+                            "description": "URL to file from Filepicker",
+                            "type": "string",
+                            "required": true
+                        }
+                    ],
+                    "responseMessages": [ ]
+                }
+            ]
+        },
+        {
+            "path": "/a/",
+            "description": "--",
+            "operations": [
+                {
+                    "nickname": "createList",
+                    "method": "POST",
+                    "summary": "Creates a new list",
+                    "type": "",
+                    "parameters": [ ],
+                    "responseMessages": [ ]
+                }
+            ]
+        },
+        {
+            "path": "/a/{list_id}/",
+            "description": "--",
+            "operations": [
+                {
+                    "nickname": "getListMetadata",
+                    "method": "GET",
+                    "summary": "Return list metadata",
+                    "type": "",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "list_id",
+                            "description": "List ID",
+                            "type": "string",
+                            "required": true
+                        }
+                    ],
+                    "responseMessages": [ ]
+                },
+                {
+                    "nickname": "putList",
+                    "method": "PUT",
+                    "summary": "Replace list",
+                    "type": "",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "list_id",
+                            "description": "List ID",
+                            "type": "string",
+                            "required": true
+                        }
+                    ],
+                    "responseMessages": [ ]
+                }
+            ]
+        },
+        {
+            "path": "/a/{list_id}{snapshot_id}/content",
+            "description": "--",
+            "operations": [
+                {
+                    "nickname": "getEmails",
+                    "method": "GET",
+                    "summary": "Download emails",
+                    "type": "",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "list_id",
+                            "description": "List ID",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "paramType": "path",
+                            "name": "snapshot_id",
+                            "description": "Timestamped snapshot ID",
+                            "type": "string",
+                            "required": true
+                        }
+                    ],
+                    "responseMessages": [ ]
+                }
+            ]
+        },
+        {
+            "path": "/a/{list_id}{snapshot_id}/metadata",
+            "description": "--",
+            "operations": [
+                {
+                    "nickname": "getEmailMetadata",
+                    "method": "GET",
+                    "summary": "Return email metadata",
+                    "type": "",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "list_id",
+                            "description": "List ID",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "paramType": "path",
+                            "name": "snapshot_id",
+                            "description": "Timestamped snapshot ID",
+                            "type": "string",
+                            "required": true
+                        }
+                    ],
+                    "responseMessages": [ ]
+                }
+            ]
+        },
+        {
+            "path": "/a/{list_id}{snapshot_id}/annotated",
+            "description": "--",
+            "operations": [
+                {
+                    "nickname": "getAnnotatedEmails",
+                    "method": "GET",
+                    "summary": "Return annotated emails",
+                    "type": "",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "list_id",
+                            "description": "List ID",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "paramType": "path",
+                            "name": "snapshot_id",
+                            "description": "Timestamped snapshot ID",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "filter_no",
+                            "description": "Filter emails that return negative validation result",
+                            "type": "bool",
+                            "required": false
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "filter_maybe",
+                            "description": "Filter emails that return inconclusive validation result",
+                            "type": "bool",
+                            "required": false
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "filter_disengaged",
+                            "description": "Filter emails whose owners are disengaged from campaigns",
+                            "type": "bool",
+                            "required": false
+                        }
+                    ],
+                    "responseMessages": [ ]
+                },
+                {
+                    "nickname": "annotateEmails",
+                    "method": "PATCH",
+                    "summary": "Add annotated data to email list",
+                    "type": "",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "list_id",
+                            "description": "List ID",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "paramType": "path",
+                            "name": "snapshot_id",
+                            "description": "Timestamped snapshot ID",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "filter_no",
+                            "description": "Filter emails that return negative validation result",
+                            "type": "bool",
+                            "required": false
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "filter_maybe",
+                            "description": "Filter emails that return inconclusive validation result",
+                            "type": "bool",
+                            "required": false
+                        },
+                        {
+                            "paramType": "",
+                            "name": "filter_disengaged",
+                            "description": "Filter emails whose owners are disengaged from campaigns",
+                            "type": "bool",
+                            "required": false
+                        }
+                    ],
+                    "responseMessages": [ ]
+                }
+            ]
+        }
+    ],
+    "models": {
+        "ModelName": {
+            "id": "ModelName",
+            "properties": {
+                "var_name": {"type": "string", "required": true, "description": "Description here"}
+            }
+        }
+    }
+}
