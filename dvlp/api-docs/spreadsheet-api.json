@@ -12,7 +12,7 @@
                     "nickname": "previewList",
                     "method": "GET",
                     "summary": "Previews a list before upload",
-                    "type": "",
+                    "type": "SheetArray",
                     "parameters": [
                         {
                             "paramType": "query",
@@ -34,26 +34,41 @@
                     "nickname": "createList",
                     "method": "POST",
                     "summary": "Creates a new list",
-                    "type": "",
-                    "parameters": [ ],
+                    "type": "List",
+                    "parameters": [
+                        {
+                          "paramType": "body",
+                          "name": "upload",
+                          "description": "List metadata",
+                          "type": "ListUpload",
+                          "required": true
+                        }
+                    ],
                     "responseMessages": [ ]
                 }
             ]
         },
         {
-            "path": "/a/{list_id}/",
+            "path": "/a/{slug}/{snapshot_id}",
             "description": "--",
             "operations": [
                 {
                     "nickname": "getListMetadata",
                     "method": "GET",
                     "summary": "Return list metadata",
-                    "type": "",
+                    "type": "ListData",
                     "parameters": [
                         {
                             "paramType": "path",
-                            "name": "list_id",
-                            "description": "List ID",
+                            "name": "slug",
+                            "description": "URL-safe file identifier",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "paramType": "path",
+                            "name": "snapshot_id",
+                            "description": "Timestamped snapshot ID",
                             "type": "string",
                             "required": true
                         }
@@ -64,12 +79,12 @@
                     "nickname": "putList",
                     "method": "PUT",
                     "summary": "Replace list",
-                    "type": "",
+                    "type": "List",
                     "parameters": [
                         {
                             "paramType": "path",
-                            "name": "list_id",
-                            "description": "List ID",
+                            "name": "slug",
+                            "description": "URL-safe file identifier",
                             "type": "string",
                             "required": true
                         }
@@ -79,19 +94,19 @@
             ]
         },
         {
-            "path": "/a/{list_id}{snapshot_id}/content",
+            "path": "/a/{slug}/{snapshot_id}/content",
             "description": "--",
             "operations": [
                 {
                     "nickname": "getEmails",
                     "method": "GET",
                     "summary": "Download emails",
-                    "type": "",
+                    "type": "ListData",
                     "parameters": [
                         {
                             "paramType": "path",
-                            "name": "list_id",
-                            "description": "List ID",
+                            "name": "slug",
+                            "description": "URL-safe file identifier",
                             "type": "string",
                             "required": true
                         },
@@ -108,48 +123,19 @@
             ]
         },
         {
-            "path": "/a/{list_id}{snapshot_id}/metadata",
-            "description": "--",
-            "operations": [
-                {
-                    "nickname": "getEmailMetadata",
-                    "method": "GET",
-                    "summary": "Return email metadata",
-                    "type": "",
-                    "parameters": [
-                        {
-                            "paramType": "path",
-                            "name": "list_id",
-                            "description": "List ID",
-                            "type": "string",
-                            "required": true
-                        },
-                        {
-                            "paramType": "path",
-                            "name": "snapshot_id",
-                            "description": "Timestamped snapshot ID",
-                            "type": "string",
-                            "required": true
-                        }
-                    ],
-                    "responseMessages": [ ]
-                }
-            ]
-        },
-        {
-            "path": "/a/{list_id}{snapshot_id}/annotated",
+            "path": "/a/{slug}/{snapshot_id}/annotated",
             "description": "--",
             "operations": [
                 {
                     "nickname": "getAnnotatedEmails",
                     "method": "GET",
                     "summary": "Return annotated emails",
-                    "type": "",
+                    "type": "ListData",
                     "parameters": [
                         {
                             "paramType": "path",
-                            "name": "list_id",
-                            "description": "List ID",
+                            "name": "slug",
+                            "description": "URL-safe file identifier",
                             "type": "string",
                             "required": true
                         },
@@ -188,12 +174,12 @@
                     "nickname": "annotateEmails",
                     "method": "PATCH",
                     "summary": "Add annotated data to email list",
-                    "type": "",
+                    "type": "ListData",
                     "parameters": [
                         {
                             "paramType": "path",
-                            "name": "list_id",
-                            "description": "List ID",
+                            "name": "slug",
+                            "description": "URL-safe file identifier",
                             "type": "string",
                             "required": true
                         },
@@ -205,25 +191,11 @@
                             "required": true
                         },
                         {
-                            "paramType": "query",
-                            "name": "filter_no",
-                            "description": "Filter emails that return negative validation result",
-                            "type": "bool",
-                            "required": false
-                        },
-                        {
-                            "paramType": "query",
-                            "name": "filter_maybe",
-                            "description": "Filter emails that return inconclusive validation result",
-                            "type": "bool",
-                            "required": false
-                        },
-                        {
-                            "paramType": "",
-                            "name": "filter_disengaged",
-                            "description": "Filter emails whose owners are disengaged from campaigns",
-                            "type": "bool",
-                            "required": false
+                            "paramType": "body",
+                            "name": "upload",
+                            "description": "List metadata",
+                            "type": "ListContent",
+                            "required": true
                         }
                     ],
                     "responseMessages": [ ]
@@ -232,10 +204,60 @@
         }
     ],
     "models": {
-        "ModelName": {
-            "id": "ModelName",
+        "Cell": {
+            "id": "Cell",
             "properties": {
-                "var_name": {"type": "string", "required": true, "description": "Description here"}
+                "row": {"type": "int", "required": true, "description": "Spreadsheet row number"},
+                "email": {"type": "string", "required": true, "description": "Cell containing email address"}
+            }
+        },
+        "List": {
+            "id": "List",
+            "properties": {
+            "id": {"type": "string", "required": true},
+            "slug": {"type": "string", "required": true, "description": "URL-safe file identifier"},
+            "snapshot": {"type": "string", "required": true, "description": "Timestamped snapshot ID"},
+            "name": { "type": "string", "required": true, "description": "Name of the list"},
+            "status": { "type": "string", "required": true, "description": "What state the list is in"},
+            "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list"}
+            }
+        },
+        "ListData": {
+            "id": "ListData",
+            "properties": {
+            "id": {"type": "string", "required": true},
+            "slug": {"type": "string", "required": true, "description": "URL-safe file identifier"},
+            "snapshot": {"type": "string", "required": true, "description": "Timestamped snapshot ID"},
+            "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list"},
+            "no": {"type": "integer", "required": "true", "description": "Number of addresses returning negative result"},
+            "yes": {"type": "integer", "required": "true", "description": "Number of addresses returning positive result"},
+            "maybe": {"type": "integer", "required": "true", "description": "Number of addresses returning inconclusive result"},
+            "disengaged": {"type": "integer", "required": "true", "description": "Number of addresses whose users are not engaged"}
+            }
+        },
+        "ListUpload": {
+            "id": "ListUpload",
+            "properties": {
+                "name": { "type": "string", "required": true, "description": "List name"},
+                "header": { "type": "boolean", "required": true, "description": "Is the first row a header?"},
+                "sheet": { "type": "string", "required": true, "description": "Sheet name"},
+                "first": { "type": "integer", "required": true, "description": "Column of first name"},
+                "last": { "type": "integer", "required": true, "description": "Column of last name"},
+                "location": { "type": "integer", "required": true, "description": "Column of location"},
+                "company": { "type": "integer", "required": true, "description": "Column of company"},
+                "email": { "type": "integer", "description": "Column of email address"}
+            }
+        },
+        "ListContent": {
+            "id": "ListContent",
+            "properties": {
+                "file_id": { "type": "string", "required": true, "description": "File ID (from Ink Filepicker API)"}
+            }
+        },
+        "SheetArray": {
+            "id": "SheetArray",
+            "properties": {
+                "cells": {"type": "array", "items": {"$ref": "Cell"} }
             }
         }
     }
