@@ -1,0 +1,38 @@
+{
+    "apiVersion": "0.1",
+    "swaggerVersion": "1.2",
+    "apis": [
+        {
+            "path": "/../spreadsheet-api.json",
+            "description": "Spreadsheet data provider to Data Validation"
+        },
+        {
+            "path": "/../mailchimp-api.json",
+            "description": "Mailchimp data provider to Data Validation"
+        },
+        {
+            "path": "/../constantcontact-api.json",
+            "description": "Constant Contact data provider to Data Validation"
+        },
+        {
+            "path": "/../salesforce-api.json",
+            "description": "Salesforce data provider to Data Validation"
+        },
+    ],
+    "authorizations": {
+        "local-oauth": {
+            "type": "oauth2"
+        },
+        "authorization_code": {
+            "tokenRequestEndpoint": {
+                "url": "http://localhost:8081/api/auth/1.0/u/app",
+                "clientIdName": "client_id",
+                "clientSecretName": "client_secret"
+            },
+            "tokenEndpoint": {
+                "url": "http://localhost:8081/api/auth/1.0/token",
+                "tokenName": "access_code"
+            }
+        }
+    }
+}
