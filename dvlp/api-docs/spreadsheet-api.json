@@ -17,7 +17,7 @@
                         {
                             "paramType": "query",
                             "name": "url",
-                            "description": "URL to file from Filepicker",
+                            "description": "File URL (from Ink Filepicker API)",
                             "type": "string",
                             "required": true
                         }
@@ -229,10 +229,10 @@
             "slug": {"type": "string", "required": true, "description": "URL-safe file identifier"},
             "snapshot": {"type": "string", "required": true, "description": "Timestamped snapshot ID"},
             "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list"},
-            "no": {"type": "integer", "required": "true", "description": "Number of addresses returning negative result"},
-            "yes": {"type": "integer", "required": "true", "description": "Number of addresses returning positive result"},
-            "maybe": {"type": "integer", "required": "true", "description": "Number of addresses returning inconclusive result"},
-            "disengaged": {"type": "integer", "required": "true", "description": "Number of addresses whose users are not engaged"}
+            "no": {"type": "integer", "required": true, "description": "Number of addresses returning negative result"},
+            "yes": {"type": "integer", "required": true, "description": "Number of addresses returning positive result"},
+            "maybe": {"type": "integer", "required": true, "description": "Number of addresses returning inconclusive result"},
+            "disengaged": {"type": "integer", "required": true, "description": "Number of addresses whose users are not engaged"}
             }
         },
         "ListUpload": {
@@ -245,7 +245,7 @@
                 "last": { "type": "integer", "required": true, "description": "Column of last name"},
                 "location": { "type": "integer", "required": true, "description": "Column of location"},
                 "company": { "type": "integer", "required": true, "description": "Column of company"},
-                "email": { "type": "integer", "description": "Column of email address"}
+                "email": { "type": "integer", "required": true, "description": "Column of email address"}
             }
         },
         "ListContent": {
