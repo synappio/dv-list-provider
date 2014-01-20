@@ -43,10 +43,14 @@ def get_lists(request):
     request_method='POST',
     permission='write')
 def create_list(request):
-    data = V.list_schema.to_python(request.json, request)
+    data = V.upload_schema.to_python(request.json, request)
+    f = data['file']
+    mapping = data['mapping']
     lst = M.List(
-        original_file_id=data['file']._id,
-        mapping=data['mapping'])
+        user_id=request.user._id,
+        url=f.url,
+        mapping=mapping,
+        status='new')
     request.response.status = 201
     M.odm_session.flush(lst)
     evt = EM.event.track(
@@ -56,14 +60,12 @@ def create_list(request):
     T.import_list.spawn(evt._id)
     raise exc.HTTPFound(request.route_path('list', lid=lst._id))
 
-
 @view_config(
     route_name='dvlp.spreadsheet.1_0.list',
     request_method='GET',
     permission='read')
 def get_list(request):
     return request.context.lst
-
 
 @view_config(
     route_name='dvlp.spreadsheet.1_0.list',
