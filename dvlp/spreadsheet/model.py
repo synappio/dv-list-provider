@@ -27,8 +27,7 @@ list_ = collection(
     Field('created', datetime, if_missing=datetime.utcnow),
     Field('status', str, if_missing='active'),
     Field('user_id', S.ObjectId, if_missing=None, index=True),
-    Field('original_file_id', S.ObjectId, if_missing=None),
-    Field('appended_file_id', S.ObjectId, if_missing=None),
+    Field('url', str)
     Field('mapping', dict(
         header=bool,
         sheet=int,
@@ -43,14 +42,6 @@ class List(object):
             id=str(self._id),
             mapping=self.mapping,
             stats=self.stats)
-
-    @reify
-    def original_file(self):
-        return FM.File.m.get_file(self.original_file_id)
-
-    @reify
-    def appended_file(self):
-        return FM.File.m.get_file(self.appended_file_id)
 
     def subscriber_iter(self):
         wb = sfile.lib.Workbook.from_sfile(self.original_file)
