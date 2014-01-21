@@ -1,13 +1,12 @@
 import logging
-
+import urllib2
 
 from pyramid.view import view_config
 from pyramid import httpexceptions as exc
 from pyramid.response import Response
 
+from sutil import util
 from sevent import model as EM
-from sfile import model as FM
-
 from dvlp.spreadsheet import model as M
 from dvlp.spreadsheet import validators as V
 import tasks as T
@@ -60,12 +59,14 @@ def create_list(request):
     T.import_list.spawn(evt._id)
     raise exc.HTTPFound(request.route_path('list', lid=lst._id))
 
+
 @view_config(
     route_name='dvlp.spreadsheet.1_0.list',
     request_method='GET',
     permission='read')
 def get_list(request):
     return request.context.lst
+
 
 @view_config(
     route_name='dvlp.spreadsheet.1_0.list',
@@ -120,4 +121,13 @@ def get_subscribers(request):
     permission='read')
 def get_appended(request):
     lst = request.context.lst
-    return FM.file_response(lst.appended_file)
+    with closing(urllib2.urlopen(lst.url)) as f:
+        r = Response(
+            content_type=f.headers.type,
+            content_disposition='attachment; filename="%s"' % f.headers.getheader('X-File-Name'))
+        if int(f.headers.getheader('Content-Length')):
+            r.app_iter = util.closing_iter(socket)
+            return r
+        else:
+            r.app_iter = ['']
+            return r
