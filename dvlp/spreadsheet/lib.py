@@ -21,23 +21,29 @@ class Workbook(object):
             sheets=[s.__json__(request) for s in self.sheets])
 
     @classmethod
-    def from_sfile(cls, f, limit_rows=None):
-        if f.contentType in cls.EXCEL_TYPES:
+    def from_file(cls, f, limit_rows=None):
+        '''
+        :param f: Spreadsheet file URL (Ink Filepicker), retrieved with `urllib2.urlopen`
+        :type f: file-like object
+        :param limit_rows: Number of rows to retrieve.
+        :type limit_rows: int or None
+        '''
+        if f.headers.type in cls.EXCEL_TYPES:
             try:
                 self = ExcelWorkbook(f)
                 self.refresh(limit_rows)
                 return self
             except Exception as err:
-                log.error('Error in %s with %s: %r', type_, f._id, err)
+                log.error('Error in ExcelWorkbook with %s: %r', f.geturl(), err)
         return None
 
 
 class ExcelWorkbook(Workbook):
 
     def refresh(self, limit_rows=None):
-        with M.File.m.get_file(self.f._id) as fp:
-            self.wb = xlrd.open_workbook(
-                self.f.filename, file_contents=fp.read())
+        self.wb = xlrd.open_workbook(
+            f.headers.getheader('X-File-Name'),
+            file_contents=f.read())
         self.sheets = []
         for i, xl_sheet in enumerate(self.wb.sheets()):
             sheet = Sheet(xl_sheet.name)
