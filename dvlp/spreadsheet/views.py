@@ -57,7 +57,7 @@ def create_list(request):
         request.user._id,
         list_id=lst._id)
     T.import_list.spawn(evt._id)
-    raise exc.HTTPFound(request.route_path('list', lid=lst._id))
+    raise exc.HTTPCreated(list_id=lst._id)
 
 
 @view_config(
@@ -114,20 +114,3 @@ def get_subscribers(request):
     r.app_iter = lst.subscriber_iter()
     return r
 
-
-@view_config(
-    route_name='dvlp.spreadsheet.1_0.list.appended',
-    request_method='GET',
-    permission='read')
-def get_appended(request):
-    lst = request.context.lst
-    with closing(urllib2.urlopen(lst.url)) as f:
-        r = Response(
-            content_type=f.headers.type,
-            content_disposition='attachment; filename="%s"' % f.headers.getheader('X-File-Name'))
-        if int(f.headers.getheader('Content-Length')):
-            r.app_iter = util.closing_iter(socket)
-            return r
-        else:
-            r.app_iter = ['']
-            return r

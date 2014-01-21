@@ -45,10 +45,6 @@ def _api_1_0(config):
         '/list/{list_id}/',
         factory=R.List)
     config.add_route(
-        'dvlp.spreadsheet.1_0.list.appended',
-        '/list/{list_id}/appended.csv',
-        factory=R.List)
-    config.add_route(
         'dvlp.spreadsheet.1_0.list.subscribers',
         '/list/{list_id}/subscribers.csv',
         factory=R.List)
