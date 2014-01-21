@@ -1,6 +1,7 @@
 import csv
 import logging
 import operator
+import urllib2
 from itertools import chain
 from cStringIO import StringIO
 from datetime import datetime
@@ -12,9 +13,8 @@ from ming import schema as S
 from ming import collection, Field
 from ming.orm import ThreadLocalODMSession
 
-import sfile.lib
-from sfile import model as FM
 from sutil import util
+from lib import Workbook
 
 log = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ list_ = collection(
     Field('created', datetime, if_missing=datetime.utcnow),
     Field('status', str, if_missing='active'),
     Field('user_id', S.ObjectId, if_missing=None, index=True),
-    Field('url', str)
+    Field('url', str),
     Field('mapping', dict(
         header=bool,
         sheet=int,
@@ -44,7 +44,8 @@ class List(object):
             stats=self.stats)
 
     def subscriber_iter(self):
-        wb = sfile.lib.Workbook.from_sfile(self.original_file)
+        with closing(urllib2.urlopen(self.url)) as socket:
+            wb = Workbook.from_file(socket)
         rdr = enumerate(wb.sheet_iter(self.mapping.sheet))
         if self.mapping.header:
             rdr.next()
@@ -58,7 +59,8 @@ class List(object):
             yield fp.getvalue()
 
     def append(self, f):
-        wb = sfile.lib.Workbook.from_sfile(self.original_file)
+        with closing(urllib2.urlopen(self.url)) as socket:
+            wb = Workbook.from_file(socket)
         rdr0 = enumerate(wb.sheet_iter(self.mapping.sheet))
         if not self.mapping.header:
             rdr0 = chain(
