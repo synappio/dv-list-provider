@@ -6,7 +6,8 @@
     "apis": [
         {
             "path": "/preview/",
-            "description": "--",
+            "name": "ss.1_0.preview",
+            "description": "Operations related to pre-upload preview of a single spreadsheet",
             "operations": [
                 {
                     "nickname": "previewList",
@@ -28,7 +29,8 @@
         },
         {
             "path": "/a/",
-            "description": "--",
+            "name": "ss.1_0.list",
+            "description": "List operations",
             "operations": [
                 {
                     "nickname": "createList",
@@ -50,7 +52,8 @@
         },
         {
             "path": "/a/{slug}/{snapshot_id}",
-            "description": "--",
+            "name": "ss.1_0.list.snapshot",
+            "description": "Operations related to a single timestamped list",
             "operations": [
                 {
                     "nickname": "getListMetadata",
@@ -95,7 +98,8 @@
         },
         {
             "path": "/a/{slug}/{snapshot_id}/content",
-            "description": "--",
+            "name": "ss.1_0.list.content",
+            "description": "Operations related to the content of a single timestamped list",
             "operations": [
                 {
                     "nickname": "getEmails",
@@ -124,7 +128,8 @@
         },
         {
             "path": "/a/{slug}/{snapshot_id}/annotated",
-            "description": "--",
+            "name": "ss.1_0.list.annotated",
+            "description": "Operations related to the annotated content of a single timestamped list",
             "operations": [
                 {
                     "nickname": "getAnnotatedEmails",
