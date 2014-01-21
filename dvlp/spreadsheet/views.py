@@ -95,10 +95,11 @@ def remap_list(request):
     data = V.mapping_schema.to_python(request.json, request)
     request.context.lst.mapping = data
     M.odm_session.flush(request.context.lst)
-    EM.event.track(
+    evt = EM.event.track(
         'dvlp.spreadsheet.list-remapped',
         request.user._id,
         list_id=request.context.lst._id)
+    T.import_list.spawn(evt._id)
     return data
 
 
