@@ -13,7 +13,7 @@
                     "nickname": "previewList",
                     "method": "GET",
                     "summary": "Previews a list before upload",
-                    "type": "SheetArray",
+                    "type": "Sheet",
                     "parameters": [
                         {
                             "paramType": "query",
@@ -209,13 +209,6 @@
         }
     ],
     "models": {
-        "Cell": {
-            "id": "Cell",
-            "properties": {
-                "row": {"type": "int", "required": true, "description": "Spreadsheet row number"},
-                "email": {"type": "string", "required": true, "description": "Cell containing email address"}
-            }
-        },
         "List": {
             "id": "List",
             "properties": {
@@ -253,16 +246,24 @@
                 "email": { "type": "integer", "required": true, "description": "Column of email address"}
             }
         },
+        "Row": {
+            "id": "Row",
+            "properties": {
+                "row": {"type": "int", "required": true, "description": "Spreadsheet row number"},
+                "email": {"type": "string", "required": true, "description": "Cell containing email address"}
+            }
+        },
         "ListContent": {
             "id": "ListContent",
             "properties": {
                 "file_id": { "type": "string", "required": true, "description": "File ID (from Ink Filepicker API)"}
             }
         },
-        "SheetArray": {
+        "Sheet": {
             "id": "SheetArray",
             "properties": {
-                "cells": {"type": "array", "items": {"$ref": "Cell"} }
+                "name": {"type": "string", "description": "Name of the sheet"},
+                "rows": {"type": "array", "items": {"$ref": "Row"} }
             }
         }
     }
