@@ -212,25 +212,39 @@
         "List": {
             "id": "List",
             "properties": {
-            "id": {"type": "string", "required": true},
-            "slug": {"type": "string", "required": true, "description": "URL-safe file identifier"},
-            "snapshot": {"type": "string", "required": true, "description": "Timestamped snapshot ID"},
-            "name": { "type": "string", "required": true, "description": "Name of the list"},
-            "status": { "type": "string", "required": true, "description": "What state the list is in"},
-            "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list"}
+                "id": {"type": "string", "required": true, "description": "URL-safe file identifier"},
+                "name": { "type": "string", "required": true, "description": "Name of the list"},
+                "status": { "type": "string", "required": true, "description": "What state the list is in"},
+                "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list"},
+                "snapshots": {"type": "array", "items": {"$ref": "ListSnapshot"} }
+            }
+        },
+        "ListSnapshot": {
+            "id": "ListSnapshot",
+            "properties": {
+                "id": {"type": "string", "required": true, "description": "Timestamped snapshot ID"},
+                "slug": {"type": "string", "required": true, "description": "URL-safe file identifier"},
+                "status": { "type": "string", "required": true, "description": "What state the list is in at timestamp"},
+                "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list at timestamp"}
             }
         },
         "ListData": {
             "id": "ListData",
             "properties": {
-            "id": {"type": "string", "required": true},
-            "slug": {"type": "string", "required": true, "description": "URL-safe file identifier"},
-            "snapshot": {"type": "string", "required": true, "description": "Timestamped snapshot ID"},
-            "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list"},
-            "no": {"type": "integer", "required": true, "description": "Number of addresses returning negative result"},
-            "yes": {"type": "integer", "required": true, "description": "Number of addresses returning positive result"},
-            "maybe": {"type": "integer", "required": true, "description": "Number of addresses returning inconclusive result"},
-            "disengaged": {"type": "integer", "required": true, "description": "Number of addresses whose users are not engaged"}
+                "slug": {"type": "string", "required": true, "description": "URL-safe file identifier"},
+                "snapshot": {"type": "string", "required": true, "description": "Timestamped snapshot ID"},
+                "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list at timestamp"},
+                "no": {"type": "integer", "required": true, "description": "Number of addresses returning negative result"},
+                "yes": {"type": "integer", "required": true, "description": "Number of addresses returning positive result"},
+                "maybe": {"type": "integer", "required": true, "description": "Number of addresses returning inconclusive result"},
+                "disengaged": {"type": "integer", "required": true, "description": "Number of addresses whose users are not engaged"}
+            }
+        },
+        "ListDataArray": {
+            "id": "ListDataArray",
+            "properties": {
+                "slug": {"type": "string", "required": true, "description": "URL-safe file identifier"},
+                "snapshots": {"type": "array", "items": {"$ref": "ListData"} }
             }
         },
         "ListUpload": {
@@ -239,10 +253,6 @@
                 "name": { "type": "string", "required": true, "description": "List name"},
                 "header": { "type": "boolean", "required": true, "description": "Is the first row a header?"},
                 "sheet": { "type": "string", "required": true, "description": "Sheet name"},
-                "first": { "type": "integer", "required": true, "description": "Column of first name"},
-                "last": { "type": "integer", "required": true, "description": "Column of last name"},
-                "location": { "type": "integer", "required": true, "description": "Column of location"},
-                "company": { "type": "integer", "required": true, "description": "Column of company"},
                 "email": { "type": "integer", "required": true, "description": "Column of email address"}
             }
         },
@@ -250,7 +260,7 @@
             "id": "Row",
             "properties": {
                 "row": {"type": "int", "required": true, "description": "Spreadsheet row number"},
-                "email": {"type": "string", "required": true, "description": "Cell containing email address"}
+                "data": {"type": "string", "required": true, "description": "Cell containing email address"}
             }
         },
         "ListContent": {
