@@ -47,6 +47,14 @@
                         }
                     ],
                     "responseMessages": [ ]
+                },
+                {
+                    "nickname": "getLists",
+                    "method": "GET",
+                    "summary": "Return an array of the lists for this user",
+                    "type": "List",
+                    "parameters": [ ],
+                    "responseMessages": [ ]
                 }
             ]
         },
@@ -83,6 +91,22 @@
                     "method": "PUT",
                     "summary": "Replace list",
                     "type": "List",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "slug",
+                            "description": "URL-safe file identifier",
+                            "type": "string",
+                            "required": true
+                        }
+                    ],
+                    "responseMessages": [ ]
+                },
+                {
+                    "nickname": "deleteList",
+                    "method": "DELETE",
+                    "summary": "Delete list",
+                    "type": "",
                     "parameters": [
                         {
                             "paramType": "path",
