@@ -52,7 +52,7 @@
                     "nickname": "getLists",
                     "method": "GET",
                     "summary": "Return an array of the lists for this user",
-                    "type": "List",
+                    "type": "ListArray",
                     "parameters": [ ],
                     "responseMessages": [ ]
                 }
@@ -67,7 +67,7 @@
                     "nickname": "getListMetadata",
                     "method": "GET",
                     "summary": "Return list metadata",
-                    "type": "ListDataArray",
+                    "type": "ListSnapshot",
                     "parameters": [
                         {
                             "paramType": "path",
@@ -240,6 +240,7 @@
                 "name": { "type": "string", "required": true, "description": "Name of the list"},
                 "status": { "type": "string", "required": true, "description": "What state the list is in"},
                 "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list"},
+                "created": {"type": "datetime", "required": true, "description": "Timestamp at which list was originally created"},
                 "snapshots": {"type": "array", "items": {"$ref": "ListSnapshot"} }
             }
         },
@@ -249,6 +250,7 @@
                 "id": {"type": "string", "required": true, "description": "Timestamped snapshot ID"},
                 "slug": {"type": "string", "required": true, "description": "URL-safe file identifier"},
                 "status": { "type": "string", "required": true, "description": "What state the list is in at timestamp"},
+                "created": {"type": "datetime", "required": true, "description": "Timestamp of list snapshot"},
                 "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list at timestamp"}
             }
         },
@@ -262,6 +264,12 @@
                 "yes": {"type": "integer", "required": true, "description": "Number of addresses returning positive result"},
                 "maybe": {"type": "integer", "required": true, "description": "Number of addresses returning inconclusive result"},
                 "disengaged": {"type": "integer", "required": true, "description": "Number of addresses whose users are not engaged"}
+            }
+        },
+        "ListArray": {
+            "id": "ListArray",
+            "properties": {
+                "lists": {"type": "array", "items": {"$ref": "List"} }
             }
         },
         "ListDataArray": {
