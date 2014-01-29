@@ -334,7 +334,7 @@
         "PreviewList": {
             "id": "PreviewList",
             "properties": {
-                "name": {"type": "string", "description": "Name of the list"},
+                "file_name": {"type": "string", "description": "File name"},
                 "sheets": {"type": "array", "items": {"$ref": "Sheet"} }
             }
         }
