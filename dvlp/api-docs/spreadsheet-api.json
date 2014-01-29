@@ -13,7 +13,7 @@
                     "nickname": "previewList",
                     "method": "GET",
                     "summary": "Previews a list before upload",
-                    "type": "ListPreview",
+                    "type": "PreviewList",
                     "parameters": [
                         {
                             "paramType": "query",
@@ -288,31 +288,32 @@
                 "email": { "type": "integer", "required": true, "description": "Column of email address"}
             }
         },
+        "Row": {
+            "id": "Row",
+            "properties": {
+                "row": {"type": "int", "required": true, "description": "Spreadsheet row number"},
+                "data": {"type": "string", "required": true, "description": "Cell containing email address"}
+            }
+        },
         "ListContent": {
             "id": "ListContent",
             "properties": {
                 "file_id": { "type": "string", "required": true, "description": "File ID (from Ink Filepicker API)"}
             }
         },
-        "ListPreview": {
-          "id": "ListPreview",
-          "properties": {
-            "filename": {"type": "string", "description": "Name of the file that was uploaded"},
-            "sheets": { "type": "array", "items": {"$ref": "Sheet"}}
-          }
-        },
         "Sheet": {
-          "id": "Sheet",
-          "properties": {
-            "name": {"type": "string", "description": "Name of the sheet"},
-            "rows": { "type": "array", "items": {"$ref": "Row"}}
-          }
+            "id": "SheetArray",
+            "properties": {
+                "name": {"type": "string", "description": "Name of the sheet"},
+                "rows": {"type": "array", "items": {"$ref": "Row"} }
+            }
         },
-        "Row": {
-          "id": "Row",
-          "properties": {
-            "cells": { "type": "array", "items": {"type": "string"} }
-          }
+        "PreviewList": {
+            "id": "PreviewList",
+            "properties": {
+                "name": {"type": "string", "description": "Name of the list"},
+                "sheets": {"type": "array", "items": {"$ref": "Sheet"} }
+            }
         }
     }
 }
