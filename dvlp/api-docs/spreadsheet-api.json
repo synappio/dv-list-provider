@@ -59,7 +59,7 @@
             ]
         },
         {
-            "path": "/a/{slug}/{snapshot_id}",
+            "path": "/a/{list_id}/{snapshot_id}",
             "name": "ss.1_0.list.snapshot",
             "description": "Operations related to a single list",
             "operations": [
@@ -71,8 +71,8 @@
                     "parameters": [
                         {
                             "paramType": "path",
-                            "name": "slug",
-                            "description": "URL-safe file identifier",
+                            "name": "list_id",
+                            "description": "List ID",
                             "type": "string",
                             "required": true
                         },
@@ -94,8 +94,8 @@
                     "parameters": [
                         {
                             "paramType": "path",
-                            "name": "slug",
-                            "description": "URL-safe file identifier",
+                            "name": "list_id",
+                            "description": "List ID",
                             "type": "string",
                             "required": true
                         }
@@ -110,8 +110,8 @@
                     "parameters": [
                         {
                             "paramType": "path",
-                            "name": "slug",
-                            "description": "URL-safe file identifier",
+                            "name": "list_id",
+                            "description": "List ID",
                             "type": "string",
                             "required": true
                         }
@@ -121,7 +121,7 @@
             ]
         },
         {
-            "path": "/a/{slug}/{snapshot_id}/content",
+            "path": "/a/{list_id}/{snapshot_id}/content",
             "name": "ss.1_0.list.content",
             "description": "Operations related to the content of a single timestamped list",
             "operations": [
@@ -133,8 +133,8 @@
                     "parameters": [
                         {
                             "paramType": "path",
-                            "name": "slug",
-                            "description": "URL-safe file identifier",
+                            "name": "list_id",
+                            "description": "List ID",
                             "type": "string",
                             "required": true
                         },
@@ -151,7 +151,7 @@
             ]
         },
         {
-            "path": "/a/{slug}/{snapshot_id}/annotated",
+            "path": "/a/{list_id}/{snapshot_id}/annotated",
             "name": "ss.1_0.list.annotated",
             "description": "Operations related to the annotated content of a single timestamped list",
             "operations": [
@@ -163,8 +163,8 @@
                     "parameters": [
                         {
                             "paramType": "path",
-                            "name": "slug",
-                            "description": "URL-safe file identifier",
+                            "name": "list_id",
+                            "description": "List ID",
                             "type": "string",
                             "required": true
                         },
@@ -207,8 +207,8 @@
                     "parameters": [
                         {
                             "paramType": "path",
-                            "name": "slug",
-                            "description": "URL-safe file identifier",
+                            "name": "list_id",
+                            "description": "List ID",
                             "type": "string",
                             "required": true
                         },
@@ -236,7 +236,7 @@
         "List": {
             "id": "List",
             "properties": {
-                "id": {"type": "string", "required": true, "description": "URL-safe file identifier"},
+                "id": {"type": "string", "required": true, "description": "List ID"},
                 "name": { "type": "string", "required": true, "description": "Name of the list"},
                 "status": { "type": "string", "required": true, "description": "What state the list is in"},
                 "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list"},
@@ -248,7 +248,7 @@
             "id": "ListSnapshot",
             "properties": {
                 "id": {"type": "string", "required": true, "description": "Timestamped snapshot ID"},
-                "slug": {"type": "string", "required": true, "description": "URL-safe file identifier"},
+                "list_id": {"type": "string", "required": true, "description": "List ID"},
                 "status": { "type": "string", "required": true, "description": "What state the list is in at timestamp"},
                 "created": {"type": "datetime", "required": true, "description": "Timestamp of list snapshot"},
                 "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list at timestamp"}
@@ -257,7 +257,7 @@
         "ListData": {
             "id": "ListData",
             "properties": {
-                "slug": {"type": "string", "required": true, "description": "URL-safe file identifier"},
+                "list_id": {"type": "string", "required": true, "description": "List ID"},
                 "snapshot": {"type": "string", "required": true, "description": "Timestamped snapshot ID"},
                 "size": {"type": "integer", "required": true, "description": "Number of subscribers on the list at timestamp"},
                 "no": {"type": "integer", "required": true, "description": "Number of addresses returning negative result"},
@@ -275,7 +275,7 @@
         "ListDataArray": {
             "id": "ListDataArray",
             "properties": {
-                "slug": {"type": "string", "required": true, "description": "URL-safe file identifier"},
+                "list_id": {"type": "string", "required": true, "description": "List ID"},
                 "snapshots": {"type": "array", "items": {"$ref": "ListData"} }
             }
         },
