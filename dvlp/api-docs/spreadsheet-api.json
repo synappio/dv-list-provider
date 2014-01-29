@@ -314,8 +314,7 @@
         "Row": {
             "id": "Row",
             "properties": {
-                "row": {"type": "int", "required": true, "description": "Spreadsheet row number"},
-                "data": {"type": "string", "required": true, "description": "Cell containing email address"}
+              "cells": { "type": "array", "items": {"type": "string"} }
             }
         },
         "ListContent": {
