@@ -59,15 +59,15 @@
             ]
         },
         {
-            "path": "/a/{list_id}/{snapshot_id}",
-            "name": "ss.1_0.list.snapshot",
+            "path": "/a/{list_id}/",
+            "name": "ss.1_0.list",
             "description": "Operations related to a single list",
             "operations": [
                 {
                     "nickname": "getListMetadata",
                     "method": "GET",
-                    "summary": "Return list metadata",
-                    "type": "ListSnapshot",
+                    "summary": "Return metadata of all list snapshots",
+                    "type": "List",
                     "parameters": [
                         {
                             "paramType": "path",
@@ -75,13 +75,6 @@
                             "description": "List ID",
                             "type": "string",
                             "required": true
-                        },
-                        {
-                            "paramType": "path",
-                            "name": "snapshot_id",
-                            "description": "Timestamped snapshot ID",
-                            "type": "string",
-                            "required": false
                         }
                     ],
                     "responseMessages": [ ]
@@ -112,6 +105,36 @@
                             "paramType": "path",
                             "name": "list_id",
                             "description": "List ID",
+                            "type": "string",
+                            "required": true
+                        }
+                    ],
+                    "responseMessages": [ ]
+                }
+            ]
+        },
+        {
+            "path": "/a/{list_id}/{snapshot_id}",
+            "name": "ss.1_0.list.snapshot",
+            "description": "Operations related to a single snapshot of a list",
+            "operations": [
+                {
+                    "nickname": "getListMetadata",
+                    "method": "GET",
+                    "summary": "Return list snapshot metadata",
+                    "type": "ListSnapshot",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "list_id",
+                            "description": "List ID",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "paramType": "path",
+                            "name": "snapshot_id",
+                            "description": "Timestamped snapshot ID",
                             "type": "string",
                             "required": true
                         }
